@@ -24,6 +24,7 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="ProblemsViewState">
     <option name="selectedIndex" value="1" />
@@ -235,7 +236,21 @@
       <option name="project" value="LOCAL" />
       <updated>1634566902289</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Снова вылезли файлы">
+      <created>1634578442074</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1634578442074</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Снова вылезли файлы">
+      <created>1634578587292</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1634578587292</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -275,7 +290,8 @@
     <MESSAGE value="Сделал ДЗ 4." />
     <MESSAGE value="1. Добавил  класс MyLinearRegression&#10;2. Добавил атрибуты w_ls, w0_ls  с листами изменений весов" />
     <MESSAGE value="Закончил ДЗ №1" />
-    <option name="LAST_COMMIT_MESSAGE" value="Закончил ДЗ №1" />
+    <MESSAGE value="Снова вылезли файлы" />
+    <option name="LAST_COMMIT_MESSAGE" value="Снова вылезли файлы" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
