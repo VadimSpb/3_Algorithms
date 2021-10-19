@@ -7,7 +7,8 @@ class MyGD:
             alpha: int = 1e-3,
             random_seed: int = None,
             iter_num: int = 1e+4,
-            scaler: str = None
+            scaler: str = None,
+            lambda_: float = 1e-8
     ):
 
         self.alpha = alpha
@@ -17,6 +18,7 @@ class MyGD:
         self.err_logs = None
         self.w = None
         self.scaler = scaler
+        self.lambda_ = lambda_
 
     @staticmethod
     def _mserror(y, y_pred):
@@ -36,7 +38,7 @@ class MyGD:
     def _standardizer(x):
         return (x - x.mean(0)) / x.std(0)
 
-    def fit(self, x, y):
+    def fit(self, x, y, penalty=None):
         """
         Returns mean square error
         :param x: features
@@ -55,7 +57,12 @@ class MyGD:
         for i in range(self.iter_num):
             y_pred = np.dot(x, w)
             mse_err = self._mserror(y, y_pred)
-            w = w - self.alpha * (1 / n * 2 * np.dot((y_pred - y), x))
+            if penalty == 'l1':
+                w = w - self.alpha * ((1 / n * 2 * np.dot((y_pred - y), x)) + self.lambda_ * w / abs(w))
+            elif penalty == 'l2':
+                w = w - self.alpha * ((1 / n * 2 * np.dot((y_pred - y), x))  + 2 * self.lambda_ * w)
+            else:
+                w = w - self.alpha * (1 / n * 2 * np.dot((y_pred - y), x))
             logs.append([i, w, mse_err])
         self.logs = logs
         if self.logs:
@@ -70,7 +77,7 @@ class MyGD:
 
 
 class MySGD(MyGD):
-    def fit(self, x, y):
+    def fit(self, x, y, penalty=None):
         """
         Returns mean square error
         :param x: features
@@ -90,7 +97,12 @@ class MySGD(MyGD):
             ind = np.random.randint(n)
             y_pred = np.dot(x[ind], w)
             mse_err = self._mserror(y[ind], y_pred)
-            w = w - self.alpha * (1 / n * 2 * np.dot((y_pred - y[ind]), x[ind]))
+            if penalty == 'l1':
+                w = w - self.alpha * (1 / n * 2 * np.dot((y_pred - y[ind]), x[ind]) + self.lambda_ * w / abs(w))
+            elif penalty == 'l2':
+                w = w - self.alpha * (1 / n * 2 * np.dot((y_pred - y[ind]), x[ind]) + 2 * self.lambda_ * w)
+            else:
+                w = w - self.alpha * (1 / n * 2 * np.dot((y_pred - y[ind]), x[ind]))
             logs.append([i, w, mse_err])
         self.logs = logs
         if self.logs:
@@ -104,7 +116,7 @@ class MyMiniBatchGD(MyGD):
         super().__init__(*args, **kwargs)
         self.qty_in_batch = qty_in_batch
 
-    def fit(self, x, y):
+    def fit(self, x, y, penalty=None):
         """
         Returns mean square error
         :param x: features
@@ -131,7 +143,12 @@ class MyMiniBatchGD(MyGD):
                 batch_y = y[start_: end_]
                 batch_y_pred = np.dot(batch_x, w)
                 mse_err = self._mserror(batch_y, batch_y_pred)
-                w = w - self.alpha * (1/n * 2 * np.dot((batch_y_pred - batch_y), batch_x))
+                if penalty == 'l1':
+                    w = w - self.alpha * (1 / n * 2 * np.dot((batch_y_pred - batch_y), batch_x) + self.lambda_ * w / abs(w))
+                elif penalty == 'l2':
+                    w = w - self.alpha * (1 / n * 2 * np.dot((batch_y_pred - batch_y), batch_x) + 2 * self.lambda_ * w)
+                else:
+                    w = w - self.alpha * (1/n * 2 * np.dot((batch_y_pred - batch_y), batch_x))
                 logs.append([i, w, mse_err])
         self.logs = logs
         if self.logs:
