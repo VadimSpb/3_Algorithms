@@ -79,10 +79,17 @@ class MyBaseTree:
         https://stackoverflow.com/questions/48999542/more-efficient-weighted-gini-coefficient-in-python/48999797#48999797
         https://stackoverflow.com/questions/39512260/calculating-gini-coefficient-in-python-numpy
         """
-        diffsum = 0
-        for i, xi in enumerate(labels[:-1], 1):
-            diffsum += np.sum(np.abs(xi - labels[i:]))
-        return diffsum / (len(labels)**2 * np.mean(labels))
+        classes = {}
+        for label in labels:
+            if label not in classes:
+                classes[label] = 0
+            classes[label] += 1
+            #  расчет критерия
+        impurity = 1
+        for label in classes:
+            p = classes[label] / len(labels)
+            impurity -= p ** 2
+        return impurity
 
     @staticmethod
     def _entropy(labels):
@@ -212,4 +219,8 @@ train_data, test_data, train_labels, test_labels = model_selection.train_test_sp
                                                                                      test_size=0.3,
                                                                                      random_state=1)
 
-model = MyBaseTree
+
+my_tree = MyBaseTree()
+my_tree.fit(classification_data, classification_labels)
+y_pred = my_tree.predict(test_data, my_tree)
+print('hi')
