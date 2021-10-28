@@ -1,10 +1,7 @@
-import matplotlib.pyplot as plt
 import random
-
-from matplotlib.colors import ListedColormap
-from sklearn import datasets
-
 import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.colors import ListedColormap
 
 random.seed(42)
 
@@ -12,31 +9,24 @@ random.seed(42)
 def get_bootstrap(data, labels, N):
     n_samples = data.shape[0]
     bootstrap = []
-
     for i in range(N):
         b_data = np.zeros(data.shape)
         b_labels = np.zeros(labels.shape)
-
         for j in range(n_samples):
             sample_index = random.randint(0, n_samples - 1)
             b_data[j] = data[sample_index]
             b_labels[j] = labels[sample_index]
         bootstrap.append((b_data, b_labels))
-
     return bootstrap
 
 
 def get_subsample(len_sample):
-    # будем сохранять не сами признаки, а их индексы
     sample_indexes = [i for i in range(len_sample)]
-
     len_subsample = int(np.sqrt(len_sample))
     subsample = []
-
     random.shuffle(sample_indexes)
     for _ in range(len_subsample):
         subsample.append(sample_indexes.pop())
-
     return subsample
 
 
@@ -113,6 +103,7 @@ def find_best_split(data, labels):
                 best_quality, best_t, best_index = current_quality, t, index
     return best_quality, best_t, best_index
 
+
 def build_tree(data, labels):
     quality, t, index = find_best_split(data, labels)
     if quality == 0:
@@ -129,6 +120,7 @@ def random_forest(data, labels, n_trees):
     for b_data, b_labels in bootstrap:
         forest.append(build_tree(b_data, b_labels))
     return forest
+
 
 def classify_object(obj, node):
     if isinstance(node, Leaf):
@@ -165,6 +157,7 @@ def tree_vote(forest, data):
 
     return voted_predictions
 
+
 def accuracy_metric(actual, predicted):
     correct = 0
     for i in range(len(actual)):
@@ -172,12 +165,13 @@ def accuracy_metric(actual, predicted):
             correct += 1
     return correct / float(len(actual)) * 100.0
 
+
 def get_meshgrid(data, step=.05, border=1.2):
     x_min, x_max = data[:, 0].min() - border, data[:, 0].max() + border
     y_min, y_max = data[:, 1].min() - border, data[:, 1].max() + border
     return np.meshgrid(np.arange(x_min, x_max, step), np.arange(y_min, y_max, step))
 
-# Визуализация дерева
+
 def visual_tree(my_tree, train_data, test_data, train_labels, test_labels, n_trees):
     colors = ListedColormap(['red', 'blue'])
     light_colors = ListedColormap(['lightcoral', 'lightblue'])
@@ -200,4 +194,3 @@ def visual_tree(my_tree, train_data, test_data, train_labels, test_labels, n_tre
     plt.title(f'Test accuracy={test_accuracy:.2f}')
 
     plt.suptitle(f'n_trees = {n_trees}')
-
