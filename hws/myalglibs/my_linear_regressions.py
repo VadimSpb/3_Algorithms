@@ -259,8 +259,8 @@ class MyLogReg(MyGD):
         self.accuracy = len(y_pred[self.y == y_pred]) / len(y_pred)
         self.err_matrix = self.correlation_matrix(y_pred, self.y)
         self.precision = (len(y_pred[(self.y == y_pred) & (y_pred == 1)]) /
-                        len(y_pred[(self.y == y_pred) & (y_pred == 1)]) +
-                          len(y_pred[(self.y != y_pred) & (y_pred == 1)]))
+                          (len(y_pred[(self.y == y_pred) & (y_pred == 1)]) +
+                          len(y_pred[(self.y != y_pred) & (y_pred == 1)])))
         self.recall = (len(y_pred[(self.y == y_pred) & (y_pred == 1)]) /
                       (len(y_pred[(self.y == y_pred) & (y_pred == 1)]) +
                        len(y_pred[(self.y != y_pred) & (y_pred == 0)])))
