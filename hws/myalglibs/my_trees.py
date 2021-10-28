@@ -1,5 +1,6 @@
 import numpy as np
 import random
+import math
 
 
 class Node:
@@ -14,7 +15,7 @@ class Node:
     true_branch : поддерево, удовлетворяющее условию в узле
     false_branch : поддерево, не удовлетворяющее условию в узле
     max_leaf : максимальное количество листьев в узле
-    leafs = : количество листьев в узле
+    leafs : количество листьев в узле
 
     """
 
@@ -62,7 +63,7 @@ class Leaf:
         return prediction
 
 
-class LessonTree:
+class OldLessonTree:
     def __init__(self):
         self.node = Node()
         pass
@@ -360,3 +361,4 @@ class MyRandomForestClassifier:
 #             prediction = self._classify_object(obj, tree)
 #             classes.append(prediction)
 #         return classes
+
